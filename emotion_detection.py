@@ -3,11 +3,11 @@ import json
 
 def output_formatter(r):
     formatted_response = json.loads(r)
-    anger_score     = formatted_response['emotionPredictions']['emotion']['anger']
-    disgust_score   = formatted_response['emotionPredictions']['emotion']['disgust']
-    fear_score      = formatted_response['emotionPredictions']['emotion']['fear']
-    joy_score       = formatted_response['emotionPredictions']['emotion']['joy']
-    sadness_score   = formatted_response['emotionPredictions']['emotion']['sadness']
+    anger_score     = formatted_response['emotionPredictions'][0]['emotion']['anger']
+    disgust_score   = formatted_response['emotionPredictions'][0]['emotion']['disgust']
+    fear_score      = formatted_response['emotionPredictions'][0]['emotion']['fear']
+    joy_score       = formatted_response['emotionPredictions'][0]['emotion']['joy']
+    sadness_score   = formatted_response['emotionPredictions'][0]['emotion']['sadness']
 
     value_to_key = {
         anger_score: "anger",
