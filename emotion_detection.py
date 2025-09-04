@@ -1,7 +1,6 @@
 import requests
 import json
 
-
 def output_formatter(r):
     formatted_response = json.loads(r)
     anger_score     = formatted_response['emotionPredictions']['emotion']['anger']
@@ -18,20 +17,20 @@ def output_formatter(r):
         sadness_score: "sadness"
     }
 
-    dominant_score  max([anger_score, disgust_score, fear_score, joy_score, sadness_score])
+    dominant_score = max([anger_score, disgust_score, fear_score, joy_score, sadness_score])
 
     output = {
         'anger'             : anger_score,
         'disgust'           : disgust_score,
         'fear'              : fear_score,
         'joy'               : joy_score,
-        'sadness'           : sadness_score
+        'sadness'           : sadness_score,
         'dominant_emotion'  : value_to_key[dominant_score]
     }
 
     return output
 
-def emotion_detector(text_to_analyze: str) -> str:
+def emotion_detector(text_to_analyze: str) -> dict:
     url = "https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
     input_json = { "raw_document": { "text": text_to_analyze } }
     headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
