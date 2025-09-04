@@ -1,8 +1,18 @@
 import requests
 import json
 
-def output_formatter(r):
-    formatted_response = json.loads(r)
+def output_formatter(response_text:str, status_code:int) -> dict:
+    if status_code == 400:
+        return {
+            'anger'             : None,
+            'disgust'           : None,
+            'fear'              : None,
+            'joy'               : None,
+            'sadness'           : None,
+            'dominant_emotion'  : None
+        }
+
+    formatted_response = json.loads(response_text)
     anger_score     = formatted_response['emotionPredictions'][0]['emotion']['anger']
     disgust_score   = formatted_response['emotionPredictions'][0]['emotion']['disgust']
     fear_score      = formatted_response['emotionPredictions'][0]['emotion']['fear']
@@ -35,7 +45,7 @@ def emotion_detector(text_to_analyze: str) -> dict:
     input_json = { "raw_document": { "text": text_to_analyze } }
     headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
     response = requests.post(url, json=input_json, headers=headers)
-    out = output_formatter(response.text)
+    out = output_formatter(response.text, response.status_code)
     return out
 
 if __name__ == "__main__":
